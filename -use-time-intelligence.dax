@@ -1,0 +1,53 @@
+# measure that compares revenue with last week by booking date
+
+Vs Prev Week_rev by bookDate = 
+VAR __PREV_WEEK =
+	CALCULATE(
+		SUM('tbl'[revenue]),
+		FILTER(ALL('Date Table for Booking date'), 'Date Table for Booking date'[Book Date] >= today()-7)
+	)
+VAR __PREV_TWO_WEEKS =
+	CALCULATE(
+		SUM('tbl'[revenue]),
+		FILTER(ALL('Date Table for Booking date'), 'Date Table for Booking date'[Book Date] >= today()-14)
+	)
+RETURN
+	DIVIDE(
+		__PREV_WEEK,
+		__PREV_TWO_WEEKS - __PREV_WEEK
+	)
+-----------------------------
+Vs Prev Month_Revenue by bookDate = 
+VAR __PREV_30DAYS =
+	CALCULATE(
+		SUM('tbl'[Revenue]),
+		FILTER(ALL('Date Table for Booking date'), 'Date Table for Booking date'[Book Date] >= today()-30)
+	)
+VAR __PREV_60DAYS =
+	CALCULATE(
+		SUM('tbl'[Revenue]),
+		FILTER(ALL('Date Table for Booking date'), 'Date Table for Booking date'[Book Date] >= today()-60)
+	)
+RETURN
+	DIVIDE(
+		__PREV_30DAYS,
+		__PREV_60DAYS - __PREV_30DAYS
+	)
+--------------------------------
+
+Vs Prev Year_Bookings by bookDate = 
+VAR __PREV_365DAYS =
+	CALCULATE(
+		SUM('tbl'[Revenue]),
+		FILTER(ALL('Date Table for Booking date'), 'Date Table for Booking date'[Book Date] >= today()-365)
+	)
+VAR __PREV_730DAYS =
+	CALCULATE(
+		SUM('tbl'[Revenue]),
+		FILTER(ALL('Date Table for Booking date'), 'Date Table for Booking date'[Book Date] >= today()-730)
+	)
+RETURN
+	DIVIDE(
+		__PREV_365DAYS,
+		__PREV_730DAYS - __PREV_365DAYS
+	)
